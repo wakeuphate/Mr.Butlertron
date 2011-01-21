@@ -37,7 +37,7 @@ $irc = &new Net_SmartIRC();
 $irc->setDebug(SMARTIRC_DEBUG_ALL);
 $irc->setUseSockets(TRUE);
 $irc->registerActionhandler(SMARTIRC_TYPE_CHANNEL, '/http:\/\/www\.youtube[^"]+/', $bot, 'youtube');
-$irc->registerActionhandler(SMARTIRC_TYPE_QUERY|SMARTIRC_TYPE_NOTICE, '^@msggt', $bot, 'msggt');
+$irc->registerActionhandler(SMARTIRC_TYPE_CHANNEL, '^@msggt', $bot, 'msggt');
 $irc->registerActionhandler(SMARTIRC_TYPE_QUERY|SMARTIRC_TYPE_NOTICE, '^!quit', $bot, 'quit');
 $irc->connect('irc.synirc.net', 6667);
 $irc->login('MrButlertron', 'Mr. Butlertron', 0, 'MrButlertron');
