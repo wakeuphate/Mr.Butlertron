@@ -11,7 +11,14 @@ class butlertron
     $youtubeXML = simplexml_load_string(file_get_contents("http://gdata.youtube.com/feeds/api/videos/".$videoID['v']."?fields=title"));
     $videoTitle = (string)$youtubeXML->title;
     
-    $irc->message(SMARTIRC_TYPE_CHANNEL, '#butlertron', $videoTitle); 
+    $irc->message(SMARTIRC_TYPE_CHANNEL, $data->channel, $videoTitle); 
+  }
+  
+  // http://live.xbox.com/en-US/MessageCenter/Compose?gamertag=phattycorpuscle&gt=phattycorpuscle
+  //todo: @msggt username 
+  function msggt(&$irc, &$data)
+  {
+    $irc->message(SMARTIRC_TYPE_CHANNEL, $data->channel, 'Not ready yet'); 
   }
   
   
@@ -30,10 +37,11 @@ $irc = &new Net_SmartIRC();
 $irc->setDebug(SMARTIRC_DEBUG_ALL);
 $irc->setUseSockets(TRUE);
 $irc->registerActionhandler(SMARTIRC_TYPE_CHANNEL, '/http:\/\/www\.youtube[^"]+/', $bot, 'youtube');
+$irc->registerActionhandler(SMARTIRC_TYPE_QUERY|SMARTIRC_TYPE_NOTICE, '^@msggt', $bot, 'msggt');
 $irc->registerActionhandler(SMARTIRC_TYPE_QUERY|SMARTIRC_TYPE_NOTICE, '^!quit', $bot, 'quit');
 $irc->connect('irc.synirc.net', 6667);
 $irc->login('MrButlertron', 'Mr. Butlertron', 0, 'MrButlertron');
-$irc->join('#butlertron');
+$irc->join(array('#butlertron'));
 $irc->listen();
 $irc->disconnect();
 ?>
