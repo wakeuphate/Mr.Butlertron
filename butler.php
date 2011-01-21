@@ -5,10 +5,13 @@ class butlertron
   
   function youtube(&$irc, &$data)
   {
-    if(preg_match('/http:\/\/www\.youtube[^"]+/', $data->message, $matches) != 0)
-    {
-      $irc->message(SMARTIRC_TYPE_CHANNEL, '#butlertron', 'Mate, You just posted this youtube link: '.$matches[0]); 
-    }
+    $videoUrl = parse_url($data->message);
+    parse_str($videoUrl['query'], $videoID);
+    
+    $youtubeXML = simplexml_load_string(file_get_contents("http://gdata.youtube.com/feeds/api/videos/".$videoID['v']."?fields=title"));
+    $videoTitle = (string)$youtubeXML->title;
+    
+    $irc->message(SMARTIRC_TYPE_CHANNEL, '#butlertron', $videoTitle); 
   }
   
   
