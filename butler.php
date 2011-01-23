@@ -8,14 +8,13 @@ class butlertron
     $videoUrl = parse_url($data->message);
     parse_str($videoUrl['query'], $videoID);
     
-    $youtubeXML = simplexml_load_string(file_get_contents("http://gdata.youtube.com/feeds/api/videos/".$videoID['v']."?fields=title"));
+    $youtubeXML = simplexml_load_string(file_get_contents("http://gdata.youtube.com/feeds/api/videos/".$videoID['v']));
     $videoTitle = (string)$youtubeXML->title;
-    
-    $irc->message(SMARTIRC_TYPE_CHANNEL, $data->channel, chr(2).'Title: '.chr(2).$videoTitle); 
+    $videoAuthor = (string)$youtubeXML->author->name;
+        
+    $irc->message(SMARTIRC_TYPE_CHANNEL, $data->channel, chr(2).'Title: '.chr(2).$videoTitle.chr(2).' Uploader: '.chr(2).$videoAuthor); 
   }
   
-  // http://live.xbox.com/en-US/MessageCenter/Compose?gamertag=phattycorpuscle&gt=phattycorpuscle
-  //todo: @msggt username 
   function msggt(&$irc, &$data)
   {
     $gamertag = substr($data->message, 7);
@@ -52,7 +51,7 @@ $irc->registerActionhandler(SMARTIRC_TYPE_CHANNEL, '^@profile', $bot, 'profile')
 $irc->registerActionhandler(SMARTIRC_TYPE_QUERY|SMARTIRC_TYPE_NOTICE, '^!quit', $bot, 'quit');
 $irc->connect('irc.synirc.net', 6667);
 $irc->login('MrButlertron', 'Mr. Butlertron', 0, 'MrButlertron');
-$irc->join(array('#butlertron', '#uguu'));
+$irc->join(array('#butlertron'));
 $irc->listen();
 $irc->disconnect();
 ?>
