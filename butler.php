@@ -2,7 +2,7 @@
 include_once('lib/SmartIRC.php');
 class butlertron
 {
-  
+  //todo: finish author.. doesnt work at the moment.. pain in the ass.
   function youtube(&$irc, &$data)
   {
     $videoUrl = parse_url($data->message);
