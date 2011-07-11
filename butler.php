@@ -2,13 +2,14 @@
 include_once('lib/SmartIRC.php');
 class butlertron
 {
-  //todo: finish author.. doesnt work at the moment.. pain in the ass.
   function youtube(&$irc, &$data)
   {
     $videoUrl = parse_url($data->message);
-    parse_str($videoUrl['query'], $videoID);
-    
-    $youtubeXML = simplexml_load_string(file_get_contents("http://gdata.youtube.com/feeds/api/videos/".$videoID['v']));
+
+    parse_str($videoUrl['query'], $query);
+    $videoID = explode(' ', $query['v']);
+ 
+    $youtubeXML = simplexml_load_string(file_get_contents("http://gdata.youtube.com/feeds/api/videos/".$videoID[0]));
     $videoTitle = (string)$youtubeXML->title;
     $videoAuthor = (string)$youtubeXML->author->name;
         
@@ -32,13 +33,13 @@ class butlertron
   }
   
   //todo: authentication for turning mr butlertron off, not based on username.
-  function quit(&$irc, &$data)
+  /*function quit(&$irc, &$data)
   {
     if ($data->nick == "Wakeuphate")
     {
       $irc->disconnect();
     }
-  }
+  }*/
   
 }
 $bot = &new butlertron();
