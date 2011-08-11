@@ -19,7 +19,8 @@ class butlertron
   function msggt(&$irc, &$data)
   {
     $gamertag = substr($data->message, 7);
-    $liveUrl = 'http://live.xbox.com/en-US/MessageCenter/Compose?gamertag='.$gamertag.'&gt='.$gamertag;
+    $gamertag_url = str_replace(' ', '%20', $gamertag);
+    $liveUrl = 'http://live.xbox.com/en-US/MessageCenter/Compose?gamertag='.$gamertag_url.'&gt='.$gamertag_url;
     $short = file_get_contents('http://tinyurl.com/api-create.php?url='.$liveUrl);
     $irc->message(SMARTIRC_TYPE_CHANNEL, $data->channel, chr(2).'Message '.$gamertag.': '.chr(2).$short);
   }
