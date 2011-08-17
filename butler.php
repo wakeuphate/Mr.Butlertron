@@ -28,7 +28,8 @@ class butlertron
   function profile(&$irc, &$data)
   {
     $gamertag = substr($data->message, 9);
-    $liveUrl = 'http://live.xbox.com/en-US/MyXbox/Profile?gamertag='.$gamertag;
+    $gamertag_url = str_replace(' ', '%20', $gamertag);
+    $liveUrl = 'http://live.xbox.com/en-US/MyXbox/Profile?gamertag='.$gamertag_url;
     $short = file_get_contents('http://tinyurl.com/api-create.php?url='.$liveUrl);
     $irc->message(SMARTIRC_TYPE_CHANNEL, $data->channel, chr(2).$gamertag.': '.chr(2).$short);
   }
